@@ -4,6 +4,10 @@
 build/
 packages
 
+# don't commit dependencies
+bower_components
+node_modules
+
 # Or the files created by dart2js.
 *.dart.js
 *.js_
