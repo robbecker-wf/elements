@@ -1,0 +1,45 @@
+<dom-module is="random-color">
+    <style>
+        .color-box {
+            width: 80%;
+            padding: 10%;
+        }
+    </style>
+    <template>
+        <div id="random-background-color" class="color-box" style$="{{_colorStyle}}">
+            <button id="color-changer" on-click="setRandomColor">
+                Change Background Color
+            </button>
+            <button id="red-maker" on-click="_makeRed">
+                Make Background Red
+            </button>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'random-color',
+        properties: {
+            color: {
+                observer: '_changeColorStyle',
+                notify: true
+            }
+        },
+        // TOMTODO - find another event that happens after the non-polymer listeners are wired up.
+        ready: function() {
+            this.color = 'green';
+        },
+        _changeColorStyle: function() {
+            this._colorStyle = 'background-color: '+ this.color;
+        },
+        setRandomColor: function() {
+            var max = 16777315;
+            // TOMTODO - sometimes this is not valid color code.  Leading zero in string?
+            this.color = '#' + Math.floor(Math.random() * max).toString(16);
+        },
+        _makeRed: function() {
+            this.color = 'red';
+        }
+    })
+</script>

@@ -10,6 +10,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 (function(document) {
   'use strict';
 
+  window.onload = function() {
+    var colorElement = document.querySelector('random-color');
+    colorElement.addEventListener('color-changed', function(ev) {
+       var color = ev.detail.value;
+        var colorSpan = document.querySelector('#color-span');
+        colorSpan.innerHTML = color;
+        colorSpan.style.color = color;
+    });
+
+    var apiRandomColor = document.querySelector('#api-random-color');
+    apiRandomColor.onclick = function() {
+        colorElement.setRandomColor();
+    };
+
+    var apiPurple = document.querySelector('#api-purple');
+    apiPurple.onclick = function() {
+        colorElement.color = 'purple';
+    };
+  };
+
   // Grab a reference to our auto-binding template
   // and give it some initial binding values
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
@@ -27,6 +47,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
   });
+
+
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
