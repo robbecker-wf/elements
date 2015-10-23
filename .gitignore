@@ -18,3 +18,4 @@ node_modules
 pubspec.lock
 npm-debug.log
 .tmp
+dist

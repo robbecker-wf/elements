@@ -1,0 +1,16 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="counter-display">
+  <style>:host { display: block; } </style>
+  <template>The count is <span>[[count]]</span></template>
+  <script>
+      Polymer({
+        is: 'counter-display',
+        properties: {
+          count: {
+            type: Number,
+            value: 0
+          }
+        }
+      });
+  </script>
+</dom-module>

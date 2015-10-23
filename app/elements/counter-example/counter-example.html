@@ -1,13 +1,12 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<dom-module id="counter-button">
-  <template> Increment by <span>{{incrementBy}}</span> </template>
+<dom-module id="counter-example">
+  <template>
+    <div>Current Count: <span>{{count}}</span></div>
+    <button on-tap="increment">Increment by <span>{{incrementBy}}</span></button>
+  </template>
   <script>
       Polymer({
-        is: 'counter-button',
-        extends: 'button',
-        listeners: {
-            tap: 'increment'
-        },
+        is: 'counter-example',
         properties: {
           incrementBy: {
             type: Number,
@@ -16,12 +15,11 @@
           count: {
             type: Number,
             value: 0,
-            notify: true,
-            reflectToAttribute: true
+            notify: true
           }
         },
         increment: function() {
-            this.count = (parseInt(this.count) || 0) + (parseInt(this.incrementBy) || 0);
+            this.count = this.count + this.incrementBy;
         }
       });
   </script>

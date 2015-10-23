@@ -50,6 +50,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
 
+  <link rel="import" href="bower_components/polymer/polymer.html">
+
   <!-- will be replaced with elements/elements.vulcanized.html -->
   <link rel="import" href="elements/elements.html">
   <!-- endreplace-->
@@ -121,11 +123,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
             <section data-route="home">
               <paper-material elevation="1">
-                <counter-button increment-by=2 value=1></counter-button>
+                <h3>Basic Counter example in Polymer</h3>
+                <counter-example increment-by=2 value=1></counter-example>
               </paper-material>
 
               <paper-material elevation="1">
-                <p class="paper-font-body2">This is another card.</p>
+                <h3>Extend a native HTML button, data flow to multiple places</h3>
+                <template is="dom-bind">
+                    <button is="counter-button" increment-by="1" count="{{count1}}"></button>
+                    <button is="counter-button" increment-by="2" count="{{count1}}"></button>
+                    <counter-display count="{{count1}}"></counter-display>
+                    <counter-display count="{{count1}}"></counter-display>
+                </template>
               </paper-material>
 
             </section>
