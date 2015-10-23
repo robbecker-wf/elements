@@ -1,0 +1,30 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="counter-button">
+  <template>
+    <div>Current Count: <span>{{value}}</span></div>
+    <button on-tap="increment">Increment by <span>{{incrementBy}}</span></button>
+  </template>
+  <script>
+    (function() {
+      'use strict';
+
+      Polymer({
+        is: 'counter-button',
+        properties: {
+          incrementBy: {
+            type: Number,
+            value: 1
+          },
+          value: {
+            type: Number,
+            value: 0,
+            notify: true
+          }
+        },
+        increment: function() {
+            this.value = this.value + this.incrementBy;
+        }
+      });
+    })();
+  </script>
+</dom-module>
