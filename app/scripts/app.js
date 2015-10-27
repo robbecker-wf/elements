@@ -11,19 +11,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   'use strict';
 
   window.onload = function() {
+
+    // Listen to databinding events coming from the element.  Could be less boilerplate with dom-bind.
     var colorElement = document.querySelector('random-color');
+    var colorSpan = document.querySelector('#color-span');
     colorElement.addEventListener('color-changed', function(ev) {
        var color = ev.detail.value;
-        var colorSpan = document.querySelector('#color-span');
         colorSpan.innerHTML = color;
         colorSpan.style.color = color;
     });
 
+    // API via method
     var apiRandomColor = document.querySelector('#api-random-color');
     apiRandomColor.onclick = function() {
         colorElement.setRandomColor();
     };
 
+    // API via property
     var apiPurple = document.querySelector('#api-purple');
     apiPurple.onclick = function() {
         colorElement.color = 'purple';
