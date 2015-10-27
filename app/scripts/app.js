@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   window.onload = function() {
 
+    // Random-color demo start
     // Listen to databinding events coming from the element.  Could be less boilerplate with dom-bind.
     var colorElement = document.querySelector('random-color');
     var colorSpan = document.querySelector('#color-span');
@@ -33,6 +34,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         colorElement.color = 'purple';
     };
   };
+  // Random-color demo end
 
   // Grab a reference to our auto-binding template
   // and give it some initial binding values
@@ -50,6 +52,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
+
+    // drop-down demo start
+    var ddElement = document.querySelector('drop-down');
+    ddElement.options = ['Binders', 'Certifications', 'Section 16', 'XBRL'];
+    ddElement.buttonText = 'Basic dropdown';
+    // drop-down demo end
   });
 
 
