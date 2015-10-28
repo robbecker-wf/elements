@@ -1,0 +1,43 @@
+<dom-module is="random-color">
+    <style>
+        .color-box {
+            width: 80%;
+            padding: 10%;
+        }
+    </style>
+    <template>
+        <div class="color-box" style$="{{_colorStyle}}">
+            <button on-click="setRandomColor">
+                Change Background Color
+            </button>
+            <button on-click="_makeRed">
+                Make Background Red
+            </button>
+        </div>
+    </template>
+</dom-module>
+
+<script>
+    Polymer({
+        is: 'random-color',
+        properties: {
+            color: {
+                observer: '_changeColorStyle',
+                notify: true
+            }
+        },
+        _changeColorStyle: function() {
+            this._colorStyle = 'background-color: '+ this.color;
+        },
+        setRandomColor: function() {
+            var max = 16777315;
+            var hexColor = Math.floor(Math.random() * max);
+            // Make it more than a 32-bit color, then get only six digits after stringified
+            var hexColorWithPaddingHack = (hexColor+0x1000000).toString(16).substr(-6);
+            this.color = '#' + hexColorWithPaddingHack;
+        },
+        _makeRed: function() {
+            this.color = 'red';
+        }
+    })
+</script>

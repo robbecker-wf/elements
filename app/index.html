@@ -146,6 +146,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
               </paper-material>
 
               <paper-material elevation="1">
+                <h3>Random Color picker</h3>
+                <button id="api-random-color">Random Color via API</button>
+                <button id="api-purple">Purple via API</button>
+                <div style="margin: 20px 0 20px 0">
+                    Current background color: <span id="color-span"></span>
+                </div>
+                <!--API via attribute-->
+                <random-color color="green"></random-color>
+              </paper-material>
+
+              <paper-material elevation="1">
+                <p class="paper-font-body2">This is another card.</p>
+              </paper-material>
+
+            </section>
+
+            <section data-route="users">
+              <paper-material elevation="1">
                 <h3>Prevent Unload</h3>
                 <template is="dom-bind">
                   <label>
