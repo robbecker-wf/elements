@@ -1,0 +1,20 @@
+<dom-module id="prevent-unload">
+  <script>
+    Polymer({
+      is: 'prevent-unload',
+      attached: function() {
+        console.log('adding window listener');
+        this._preventUnload = function(ev) {
+          var msg = 'You have unsaved changes';
+          ev.returnValue = msg;
+          return msg;
+        };
+        window.addEventListener('beforeunload', this._preventUnload);
+      },
+      detached: function() {
+        console.log('removing window listener');
+        window.removeEventListener('beforeunload', this._preventUnload);
+      }
+    });
+  </script>
+</dom-module>

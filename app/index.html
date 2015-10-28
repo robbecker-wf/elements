@@ -45,7 +45,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:css styles/main.css -->
   <link rel="stylesheet" href="styles/main.css">
   <!-- endbuild-->
-
+  <style>
+    .color0 { background-color: red; height: 30px; display:block; width: 200px;}
+    .color1 { background-color: green; height: 70px; display:block; width: 200px;}
+    .color2 { background-color: blue; height: 200px; display:block; width: 200px;}
+    .vlist-number {
+      float:left;
+      top: 5px;
+      left: 5px;
+      padding: 5px;
+      font-family: Helvetica, sans-serif;
+      background-color: #fff;
+      opacity: 0.6;
+    }
+  </style>
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
@@ -77,18 +90,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Drawer Content -->
         <paper-menu class="list" attr-for-selected="data-route" selected="[[route]]">
           <a data-route="home" href="/" on-click="onDataRouteClick">
-            <iron-icon icon="home"></iron-icon>
-            <span>Home</span>
+            <iron-icon icon="thumb-up"></iron-icon>
+            <span>Basic Demos</span>
           </a>
 
-          <a data-route="users" href="/users" on-click="onDataRouteClick">
-            <iron-icon icon="info"></iron-icon>
-            <span>Users</span>
-          </a>
-
-          <a data-route="contact" href="/contact" on-click="onDataRouteClick">
-            <iron-icon icon="mail"></iron-icon>
-            <span>Contact</span>
+          <a data-route="list" href="/list" on-click="onDataRouteClick">
+            <iron-icon icon="list"></iron-icon>
+            <span>Virtual List</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -131,35 +139,45 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <h3>Extend a native HTML button, data flow to multiple places</h3>
                 <template is="dom-bind">
                     <button is="counter-button" increment-by="1" count="{{count1}}"></button>
-                    <button is="counter-button" increment-by="2" count="{{count1}}"></button>
+                    <button is="counter-button" increment-by="10" count="{{count1}}"></button>
                     <counter-display count="{{count1}}"></counter-display>
                     <counter-display count="{{count1}}"></counter-display>
                 </template>
               </paper-material>
 
-            </section>
-
-            <section data-route="users">
               <paper-material elevation="1">
-                <h2 class="page-title">Users</h2>
-                <p>This is the users section</p>
-                <a href="/users/Rob">Rob</a>
+                <h3>Prevent Unload</h3>
+                <template is="dom-bind">
+                  <label>
+                    <input type="checkbox" onclick="preventUnload(this.checked)"/>
+                    Prevent Unload ?
+                  </label>
+                </template>
+              </paper-material>
+
+              <paper-material elevation="1">
+                <h3>Lazy Loading</h3>
+                <button onclick="lazyLoad('elements/lazy/lazy.html')">
+                Lazy Load an Element
+                </button>
+                <br>
+                <lazy-loaded>Nothing to see here...</lazy-loaded>
               </paper-material>
             </section>
 
-            <section data-route="user-info">
+            <section data-route="list">
               <paper-material elevation="1">
-                <h2 class="page-title">
-                User:<span>{{params.name}}</span>
-                </h2>
-                <div>This is <span>{{params.name}}</span>'s section</div>
-              </paper-material>
-            </section>
-
-            <section data-route="contact">
-              <paper-material elevation="1">
-                <h2 class="page-title">Contact</h2>
-                <p>This is the contact section</p>
+                <h3>Virtual List</h3>
+                    <template is="dom-bind">
+                        <list-provider as="{{vlistData}}"></list-provider>
+                        <iron-list items="{{vlistData}}" as="item" style="width: 210px; height: 400px;">
+                            <template>
+                                <div class$="[[item.color]]">
+                                    <span class="vlist-number">[[item.number]]</span>
+                                </div>
+                            </template>
+                        </iron-list>
+                    </template>
               </paper-material>
             </section>
 
