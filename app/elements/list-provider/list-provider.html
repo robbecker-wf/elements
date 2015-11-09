@@ -1,0 +1,27 @@
+<dom-module id="">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+    </template>
+    <script>
+        Polymer({
+            is: 'list-provider',
+            properties: {
+                as: {
+                    type: Object,
+                    value: function() {
+                        var vlistData = [];
+                        for (var i = 1; i <= 100000; i++) {
+                            vlistData.push({number: i, color: 'color'+(i%3)})
+                        }
+                        return vlistData;
+                    },
+                    notify: true
+                }
+            }
+        });
+    </script>
+</dom-module>

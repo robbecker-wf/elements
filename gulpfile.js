@@ -107,7 +107,7 @@ gulp.task('jshint', function () {
       'app/scripts/**/*.js',
       'app/elements/**/*.js',
       'app/elements/**/*.html',
-      'gulpfile.js'
+      //'gulpfile.js'
     ])
     .pipe($.jshint.extract()) // Extract JS from .html files
     .pipe($.jshint())
