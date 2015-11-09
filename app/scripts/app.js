@@ -33,6 +33,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     apiPurple.onclick = function() {
         colorElement.color = 'purple';
     };
+
+    // API via React
+    ReactDOM.render(
+        React.createElement('random-color', {color: 'blue'}),
+        document.querySelector('#random-color-container-react')
+    )
   };
   // Random-color demo end
 

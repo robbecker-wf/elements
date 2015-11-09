@@ -147,13 +147,19 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <paper-material elevation="1">
                 <h3>Random Color picker</h3>
-                <button id="api-random-color">Random Color via API</button>
-                <button id="api-purple">Purple via API</button>
-                <div style="margin: 20px 0 20px 0">
-                    Current background color: <span id="color-span"></span>
+                <div style="border: 1px solid black; padding: 2px;">
+                  Vanilla JS<br><br>
+                  <button id="api-random-color">Random Color via API</button>
+                  <button id="api-purple">Purple via API</button>
+                  <div style="margin: 20px 0 20px 0">
+                      Current background color: <span id="color-span"></span>
+                  </div>
+                  Initial state via HTML attribute
+                  <random-color color="green"></random-color>
                 </div>
-                <!--API via attribute-->
-                <random-color color="green"></random-color>
+
+                Initial state via React
+                <div id="random-color-container-react"></div>
               </paper-material>
 
               <paper-material elevation="1">
@@ -228,6 +234,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   </template>
 
   <!-- build:js scripts/app.js -->
+  <script src="../bower_components/react/react.min.js"></script>
+  <script src="../bower_components/react/react-dom.min.js"></script>
   <script src="scripts/app.js"></script>
   <!-- endbuild-->
 </body>
