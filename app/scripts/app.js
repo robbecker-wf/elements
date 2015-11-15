@@ -12,6 +12,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   window.onload = function() {
 
+    // Random-color demo start
     // Listen to databinding events coming from the element.  Could be less boilerplate with dom-bind.
     var colorElement = document.querySelector('random-color');
     var colorSpan = document.querySelector('#color-span');
@@ -32,7 +33,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     apiPurple.onclick = function() {
         colorElement.color = 'purple';
     };
+
+    // API via React
+    ReactDOM.render(
+        React.createElement('random-color', {color: 'blue'}),
+        document.querySelector('#random-color-container-react')
+    )
   };
+  // Random-color demo end
 
   // Grab a reference to our auto-binding template
   // and give it some initial binding values
@@ -50,8 +58,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
-    var rendered = 0;
 
+    var rendered = 0;
 
     var TreeComponent = React.createClass({
     displayName: 'TreeComponent',
@@ -96,6 +104,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var rc = React.createElement(TreeComponent, {height: 9});
     var el = document.getElementById('react-tree');
     window.reactTree = ReactDOM.render(rc, el);
+
+    // drop-down demo start
+    var ddElement = document.querySelector('drop-down');
+    ddElement.options = ['Binders', 'Certifications', 'Section 16', 'XBRL'];
+    ddElement.buttonText = 'Basic dropdown';
+    // drop-down demo end
 
   });
 

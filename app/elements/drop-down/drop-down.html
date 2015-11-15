@@ -1,0 +1,38 @@
+<dom-module is="drop-down">
+    <link rel="import" type="css" href="../../bower_components/web-skin/dist/css/web-skin.css">
+    <template>
+        <button type="button" id="dd-btn" on-click="_toggleDD"
+                class="btn btn-default dropdown-toggle"
+                aria-haspopup="true"
+                aria-expanded="false"
+                >{{buttonText}}<i class="caret" aria-hidden="true"></i>
+        </button>
+        <ul id="dd" role="menu" class="dropdown-menu"
+            aria-labelledby="dd-btn" style$="{{_ddStyle}}">
+            <template is="dom-repeat" items="{{options}}">
+                <li role="presentation" class="menu-item">
+                    <a role="menuitem" class="hitarea" tabindex="-1" href="#">{{item}}</a>
+                </li>
+            </template>
+        </ul>
+    </template>
+</dom-module>
+
+<script>
+    var showDD = false;
+    Polymer({
+        is: 'drop-down',
+        properties: {
+            options: Object,
+            buttonText: String
+        },
+        _toggleDD: function() {
+            showDD = !showDD;
+            if (showDD) {
+                this._ddStyle = 'display: block !important';
+            } else {
+                this._ddStyle = '';
+            }
+        }
+    })
+</script>
