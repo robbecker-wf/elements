@@ -58,11 +58,18 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       background-color: #fff;
       opacity: 0.6;
     }
+    .left, .right {
+        border: solid 1px #ccc;
+        padding: 5px;
+        margin: 10px;
+    }
   </style>
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
   <!-- endbuild -->
 
+  <script src="bower_components/react/react.js"></script>
+  <script src="bower_components/react/react-dom.js"></script>
   <link rel="import" href="bower_components/polymer/polymer.html">
 
   <!-- will be replaced with elements/elements.vulcanized.html -->
@@ -160,10 +167,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <p class="paper-font-body2">This is another card.</p>
               </paper-material>
 
-            </section>
-
-            <section data-route="users">
-              <paper-material elevation="1">
+                <paper-material elevation="1">
                 <h3>Prevent Unload</h3>
                 <template is="dom-bind">
                   <label>
@@ -181,6 +185,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <br>
                 <lazy-loaded>Nothing to see here...</lazy-loaded>
               </paper-material>
+
+              <paper-material elevation="1">
+                <h3>Polymer Element Tree Perf</h3>
+                <tree-node height="9"></tree-node>
+              </paper-material>
+
+              <paper-material elevation="1">
+                <h3>React Component Tree Perf</h3>
+                <div id="react-tree"></div>
+              </paper-material>
+            </section>
+
+            <section data-route="users">
+
             </section>
 
             <section data-route="list">

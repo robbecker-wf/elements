@@ -50,6 +50,53 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
+    var rendered = 0;
+
+
+    var TreeComponent = React.createClass({
+    displayName: 'TreeComponent',
+    getInitialState: function() {
+        return {
+            value: Math.floor(Math.random() * 100) // random value
+        }
+    },
+    render: function() {
+
+        var kids = [];
+        if (this.props.height) {
+            kids.push(
+                React.createElement(
+                    TreeComponent,
+                    {
+                        key: 'left',
+                        height: this.props.height - 1,
+                        className: 'left'
+                    }
+                )
+            );
+            kids.push(
+                React.createElement(
+                    TreeComponent,
+                    {
+                        key: 'right',
+                        height: this.props.height - 1,
+                        className: 'right'
+                    }
+                )
+            );
+        }
+        // rendered++;
+        // console.log('render', rendered);
+        return React.createElement('div', {className: this.props.className},
+            this.state.value,
+            kids
+        )
+    }
+});
+    var rc = React.createElement(TreeComponent, {height: 9});
+    var el = document.getElementById('react-tree');
+    window.reactTree = ReactDOM.render(rc, el);
+
   });
 
 
@@ -94,8 +141,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // Scroll page to top and expand header
   app.scrollPageToTop = function() {
-    document.getElementById('mainContainer').scrollTop = 0;
+    //document.getElementById('mainContainer').scrollTop = 0;
   };
+
+
 
 })(document);
 
@@ -123,3 +172,6 @@ function lazyLoad(html) {
     link.href = html;
     document.body.appendChild(link);
 }
+
+
+
