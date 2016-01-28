@@ -58,15 +58,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // have resolved and content has been stamped to the page
   app.addEventListener('dom-change', function() {
     console.log('Our app is ready to rock!');
+    var mainC = document.querySelector('#mainContainer');
+    var lazies = document.querySelectorAll('img[is="lazy-image"]');
+    for (var i = 0; i < lazies.length; i++) {
+        lazies[i].scrollableContainer = mainC;
+    }
 
-    var rendered = 0;
+    window.rendered = 0;
 
-    var TreeComponent = React.createClass({
+    window.TreeComponent = React.createClass({
     displayName: 'TreeComponent',
     getInitialState: function() {
         return {
             value: Math.floor(Math.random() * 100) // random value
         }
+    },
+    shouldComponentUpdate: function(nextProps, nextState) {
+        return this.state.value !== nextState.value;
     },
     render: function() {
 
@@ -77,6 +85,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     TreeComponent,
                     {
                         key: 'left',
+                        ref: 'left',
                         height: this.props.height - 1,
                         className: 'left'
                     }
@@ -87,11 +96,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                     TreeComponent,
                     {
                         key: 'right',
+                        ref: 'right',
                         height: this.props.height - 1,
                         className: 'right'
                     }
                 )
             );
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
+            // kids.push(React.createElement('div',{invisible: true}));
         }
         // rendered++;
         // console.log('render', rendered);
@@ -99,11 +119,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             this.state.value,
             kids
         )
+    },
+    addOne: function() {
+        this.setState({value: this.state.value + 1});
+        if (this.refs.left) this.refs.left.addOne();
+        if (this.refs.right) this.refs.right.addOne();
     }
 });
-    var rc = React.createElement(TreeComponent, {height: 9});
-    var el = document.getElementById('react-tree');
-    window.reactTree = ReactDOM.render(rc, el);
 
     // drop-down demo start
     var ddElement = document.querySelector('drop-down');
@@ -164,14 +186,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 function preventUnload(enable) {
     var prev = document.querySelector('#prevent');
-    if (enable && !prev) {
-        prev = document.createElement('prevent-unload');
-        prev.id = 'prevent';
-        window.document.body.appendChild(prev);
-    }
-    if (!enable) {
-        prev.remove();
-    }
+    if (prev) prev.enabled = enable;
 }
 function allowUnload() {
     if (!document.querySelector('#prevent')) {
@@ -186,6 +201,25 @@ function lazyLoad(html) {
     link.href = html;
     document.body.appendChild(link);
 }
-
-
-
+function addPolyTree() {
+    document.getElementById('polytree').innerHTML = '<tree-node height="9"></tree-node>';
+}
+function removePolyTree() {
+    document.getElementById('polytree').innerHTML = '';
+}
+function addPolyBlob() {
+    var tag = '<tree-node height="9"></tree-node>';
+    var html = '';
+    for (var i = 0; i < 1000; i++) {
+        html += tag;
+    };
+    document.getElementById('polytree').innerHTML = html;
+}
+function addReactTree() {
+    var rc = React.createElement(TreeComponent, {height: 9});
+    var el = document.getElementById('react-tree');
+    window.reactTree = ReactDOM.render(rc, el);
+}
+function removeReactTree() {
+    document.getElementById('react-tree').innerHTML = '';
+}

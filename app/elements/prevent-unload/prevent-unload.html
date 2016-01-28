@@ -2,18 +2,34 @@
   <script>
     Polymer({
       is: 'prevent-unload',
+      properties: {
+        message: {
+          type: String,
+          value: 'You sure you want to leave?',
+          reflectToAttribute: true
+        },
+        enabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true
+        }
+      },
       attached: function() {
-        console.log('adding window listener');
-        this._preventUnload = function(ev) {
-          var msg = 'You have unsaved changes';
-          ev.returnValue = msg;
-          return msg;
-        };
-        window.addEventListener('beforeunload', this._preventUnload);
+        var self = this;
+        this._preventUnloadBound = function(ev) {
+          self._preventUnload(ev);
+        }
+        window.addEventListener('beforeunload', this._preventUnloadBound);
       },
       detached: function() {
-        console.log('removing window listener');
-        window.removeEventListener('beforeunload', this._preventUnload);
+        window.removeEventListener('beforeunload', this._preventUnloadBound);
+      },
+      _preventUnload: function(ev) {
+        if (this.enabled) {
+          var msg = this.message;
+          ev.returnValue = msg;
+          return msg;
+        }
       }
     });
   </script>

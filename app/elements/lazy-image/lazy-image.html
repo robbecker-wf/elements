@@ -1,0 +1,116 @@
+<link rel="import" href="../../../bower_components/polymer/polymer.html">
+
+<dom-module id="lazy-image">
+    <script>
+        Polymer({
+            is: 'lazy-image',
+            extends: 'img',
+            listeners: {
+                tap: 'load'
+            },
+            properties: {
+                loading: {
+                    type: Boolean,
+                    readOnly: true,
+                    value: false,
+                    notify: true,
+                    reflectToAttribute: true
+                },
+                loaded: {
+                    readOnly: true,
+                    type: Boolean,
+                    value: false,
+                    notify: true,
+                    reflectToAttribute: true
+                },
+                url: {
+                    type: String,
+                    value: ''
+                },
+                maxRetries: {
+                    type: Number,
+                    value: 100
+                },
+                retryAfter: {
+                    type: Number,
+                    value: 3000
+                },
+                retry: {
+                    type: Boolean,
+                    value: true
+                },
+                scrollableContainer: {
+                    type: HTMLElement,
+                    value: null,
+                    observer: '_containerChange'
+                },
+                _tries: {
+                    type: Number,
+                    value: 0
+                }
+            },
+            load: function() {
+                if (this.loaded || this.loading || !this.url ||
+                    (this.maxRetries > 0 && this._tries >= this.maxRetries)) {
+                    return;
+                }
+
+                this.debounce('_load', this._load, 50);
+            },
+            _load: function() {
+                if (!this.isInView()) {
+                    return;
+                }
+                this.loading = true;
+                var img = new Image();
+                var self = this;
+                img.onload = function() {
+                    self._tries++;
+                    self.loaded = true;
+                    self.loading = false;
+                    self.src = img.src;
+                    if (!self.width && !self.height) {
+                        self.width = img.width;
+                        self.height = img.height;
+                    }
+                };
+                img.onerror = function() {
+                    self._tries++;
+                    self.loading = false;
+                    if (self.retry) {
+                        self.async(self.load, self._getImageDelay());
+                    }
+                };
+                img.src = this.url;
+            },
+            _getImageDelay: function() {
+                if (this.tries <= 1) {
+                    return 1000;
+                } else if (this.tries <= 2) {
+                    return 2000;
+                } else if (this.tries <= 3) {
+                    return 4000;
+                } else if (this.tries <= 4) {
+                    return 8000;
+                }
+                return 10000;
+            },
+            _containerChange: function() {
+                if (this.scrollableContainer) {
+                    this.scrollableContainer.addEventListener('scroll', this.load.bind(this));
+                }
+            },
+            isInView: function() {
+                var containerBounds = window.document.body.getBoundingClientRect();
+                var bounds = this.getBoundingClientRect();
+
+                var topInRange = bounds.top >= containerBounds.top && bounds.top <= containerBounds.bottom;
+                var botInRange = bounds.bottom <= containerBounds.bottom && bounds.bottom >= containerBounds.top;
+
+                var leftInRange = bounds.left >= containerBounds.left && bounds.left <= containerBounds.right;
+                var rightInRange = bounds.right <= containerBounds.right && bounds.right >= containerBounds.left;
+                return (topInRange || botInRange) && (leftInRange || rightInRange);
+            }
+        });
+    </script>
+</dom-module>

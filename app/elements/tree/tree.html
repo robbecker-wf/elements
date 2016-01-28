@@ -12,10 +12,10 @@
                 margin: 10px;
             }
         </style>
-        {{value}}
-        <template is="dom-if" if="{{more}}">
-            <tree-node id="left" height="{{height_minus_one}}"></tree-node>
-            <tree-node id="right" height="{{height_minus_one}}"></tree-node>
+        [[value]]
+        <template is="dom-if" if="[[more]]">
+            <tree-node id="left" height="[[height_minus_one]]"></tree-node>
+            <tree-node id="right" height="[[height_minus_one]]"></tree-node>
         </template>
     </template>
     <script>
@@ -29,11 +29,18 @@
                 },
                 height_minus_one: {
                     computed: '_heightMinusOne(height)'
-                },
+                }
             },
             attached: function() { this.value = Math.floor(Math.random() * 100) },
             _more: function() { return this.height > 0 },
-            _heightMinusOne: function() { return this.height - 1 }
+            _heightMinusOne: function() { return this.height - 1 },
+            addOne: function() {
+                this.value++;
+                var left = this.$$('#left');
+                var right = this.$$('#right');
+                if (left) left.addOne();
+                if (right) right.addOne();
+            }
         });
     </script>
 </dom-module>

@@ -7,6 +7,19 @@
         </style>
     </template>
     <script>
+        var colors = [
+        '#66cc00',
+        '#0094ff',
+        '#fbad17',
+        '#813296',
+        '#ee2724',
+        '#595959',
+        '#fcda04',
+        '#a71b19',
+        '#8a8a8a',
+        '#e3d0e5'
+        ];
+
         Polymer({
             is: 'list-provider',
             properties: {
@@ -14,8 +27,8 @@
                     type: Object,
                     value: function() {
                         var vlistData = [];
-                        for (var i = 1; i <= 100000; i++) {
-                            vlistData.push({number: i, color: 'color'+(i%3)})
+                        for (var i = 1; i <= 100; i++) {
+                            vlistData.push({number: i, color: colors[i % colors.length] })
                         }
                         return vlistData;
                     },

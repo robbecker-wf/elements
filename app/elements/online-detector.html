@@ -1,0 +1,40 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="online-detector">
+    <template>
+        <style>
+            :host {
+                display: none;
+            }
+        </style>
+    </template>
+    <script>
+        Polymer({
+            is: 'online-detector',
+            properties: {
+                online: {
+                    type: Boolean,
+                    reflectToAttribute: true,
+                    notify: true,
+                    value: window.navigator.onLine
+                },
+            },
+            setOnline: function() {
+                this.online = true;
+            },
+            setOffline: function() {
+                this.online = false;
+            },
+            attached: function() {
+                // set up events for online offline
+                this._setOffline = this.setOffline.bind(this);
+                this._setOnline = this.setOnline.bind(this);
+                window.addEventListener("offline", this._setOffline);
+                window.addEventListener("online", this._setOnline);
+            },
+            detached: function() {
+                window.removeEventListener("offline", this._setOffline);
+                window.removeEventListener("online", this._setOnline);
+            }
+        });
+    </script>
+</dom-module>

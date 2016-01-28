@@ -1,0 +1,96 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="prevent-unload/prevent-unload.html">
+<script src="../bower_components/classnames/index.js"></script>
+<dom-module id="alert-banner">
+    <template>
+        <style>
+            :host {
+                display: block;
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                right: 0px;
+                text-align: center;
+                background-color: #03A9F4;
+                color: white;
+                z-index: 100;
+            }
+
+            .msg {
+                display: inline-block;
+                position: relative;
+                width: auto;
+                margin: auto;
+                text-align: center;
+                padding-top: 30px;
+                padding-bottom: 30px;
+            }
+            .shown {
+                z-index: 100 !important; /* on top of everything */
+                display: block !important;
+            }
+            .hidden {
+                display: none;
+                z-index: -1;
+            }
+        </style>
+        <div id="toast">
+            <template is="dom-if" if="{{!online}}">
+                <div id="offline_message" class="msg"><strong>Connection Lost</strong>
+                - Attempting to reconnect. Changes will be saved after
+                connection is reestablished.</div>
+            </template>
+            <template is="dom-if" if="{{_isRetrying(online, retrying, unsaved)}}">
+                <div id="retry_message" class="msg">There was a problem saving your changes. Retrying...</div>
+            </template>
+             <template is="dom-if" if="{{_isSaving(online, retrying, unsaved)}}">
+                <div id="saving_message" class="msg"><strong>Saving...</strong></div>
+            </template>
+        </div>
+        <prevent-unload id="preventUnload" enabled="{{unsaved}}" message="You sure bro?"></prevent-unload>
+    </template>
+    <script>
+        Polymer({
+            is: 'alert-banner',
+            properties: {
+                online:   { type: Boolean, value: false, observer: '_classes' },
+                unsaved:  { type: Boolean, value: false, observer: '_classes' },
+                retrying: { type: Boolean, value: false, observer: '_classes' }
+            },
+            _isRetrying: function() {
+                return this.retrying && this.online;
+            },
+            _isSaving: function() {
+                return this.online && !this.retrying && this.unsaved;
+            },
+            _classes: function() {
+                var shown = !this.online || this.retrying || this.unsaved;
+                // classNames is made available on window in main.js for the
+                // production app, or via the script tag above in dev mode and
+                // in tests
+                this.$.toast.className = classNames({
+                    'alert': true,
+                    'alert-sm': true,
+                    'alert-danger': !this.online,
+                    'alert-warning': this._isRetrying(),
+                    'alert-success': this.unsaved,
+                    'shown': shown,
+                    'hidden': !shown
+                });
+            },
+            attached: function() {
+                var self = this;
+                window.addEventListener('sync-unsaved', function() {
+                    self.unsaved = true;
+                });
+                window.addEventListener('sync-retry', function() {
+                    self.retrying = true;
+                });
+                window.addEventListener('sync-saved', function() {
+                    self.retrying = false;
+                    self.unsaved = false;
+                });
+            }
+        });
+    </script>
+</dom-module>

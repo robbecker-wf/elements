@@ -82,8 +82,14 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 </head>
 
 <body unresolved class="fullbleed layout vertical">
+  <prevent-unload id="prevent"></prevent-unload>
+
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
+
+    <online-detector online="{{online}}"></online-detector>
+    <alert-banner online="{{online}}"></alert-banner>
+
 
     <paper-drawer-panel id="paperDrawerPanel">
       <!-- Drawer Scroll Header Panel -->
@@ -137,6 +143,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
             <section data-route="home">
+              <paper-material elevation="1">
+                <h3>Online?</h3>
+                Are we online? <strong>{{online}}</strong>
+              </paper-material>
+
               <paper-material elevation="1">
                 <h3>Basic Counter example in Polymer</h3>
                 <counter-example increment-by=2 value=1></counter-example>
@@ -198,12 +209,23 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <paper-material elevation="1">
                 <h3>Polymer Element Tree Perf</h3>
-                <tree-node height="9"></tree-node>
+                <button onclick="addPolyTree()">Add Polymer Tree</button>
+                <button onclick="removePolyTree()">Remove Polymer Tree</button>
+                <button onclick="addPolyBlob()">Add Polymer Blob</button>
+                <div id="polytree"></div>
               </paper-material>
 
               <paper-material elevation="1">
                 <h3>React Component Tree Perf</h3>
+                <a name="reactperf"></a>
+                <button onclick="addReactTree()">Add React Tree</button>
+                <button onclick="removeReactTree()">Remove React Tree</button>
                 <div id="react-tree"></div>
+              </paper-material>
+
+              <paper-material elevation="1">
+                <h3>Lazy Load Image</h3>
+                <img is="lazy-image" src="images/spinner.gif" url="images/gangnam.jpg" height="256" width="256">
               </paper-material>
             </section>
 
@@ -216,11 +238,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                 <h3>Virtual List</h3>
                     <template is="dom-bind">
                         <list-provider as="{{vlistData}}"></list-provider>
-                        <iron-list items="{{vlistData}}" as="item" style="width: 210px; height: 400px;">
+                        <iron-list items="{{vlistData}}" as="item" style="width: 2000px; height: 2000px;">
                             <template>
-                                <div class$="[[item.color]]">
-                                    <span class="vlist-number">[[item.number]]</span>
-                                </div>
+                                <canvas width="2000" height="2000"></canvas>
                             </template>
                         </iron-list>
                     </template>
